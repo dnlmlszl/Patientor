@@ -1,4 +1,4 @@
-import { Divider, ListItem, Typography } from '@material-ui/core';
+import { Divider, ListItem, Typography, makeStyles } from '@material-ui/core';
 import { Diagnosis, SickLeave } from '../../types';
 import { useEffect, useState } from 'react';
 import { apiBaseUrl } from '../../constants';
@@ -26,8 +26,38 @@ type DiagnosisEntry = {
   name: string;
 };
 
+const useStyles = makeStyles(() => ({
+  listContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: '1.5rem',
+    width: '100%',
+    padding: '1rem',
+    borderBottom: '1px solid #e0e0e0',
+  },
+  title: {
+    fontSize: '1.1rem',
+  },
+  text: {
+    fontSize: '1rem',
+    lineHeight: '1.5',
+  },
+  innerListItem: {
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    alignItems: 'start',
+    justifyContent: 'space-between',
+    gap: '0.25rem',
+  },
+}));
+
 const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
   const [diagnosisEntry, setDiagnosisEntry] = useState<DiagnosisEntry[]>([]);
+
+  const classes = useStyles();
 
   const getHealthCheckRatingDescription = (rating: number) => {
     switch (rating) {
@@ -80,55 +110,46 @@ const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
 
   return (
     <section>
-      <ListItem
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
-      >
-        <Typography variant="body2" component="p">
+      <ListItem className={classes.listContainer}>
+        <Typography
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          className={classes.title}
+        >
           Type:
         </Typography>
-        <Typography color="textSecondary">{entry.type}</Typography>
+        <Typography color="textSecondary" className={classes.text}>
+          {entry.type}
+        </Typography>
       </ListItem>
-      <ListItem
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
-      >
-        <Typography variant="body2" component="p">
+      <ListItem className={classes.listContainer}>
+        <Typography
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          className={classes.title}
+        >
           Date:
         </Typography>
-        <Typography color="textSecondary">{entry.date}</Typography>
+        <Typography color="textSecondary" className={classes.text}>
+          {entry.date}
+        </Typography>
       </ListItem>
       {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
-        <ListItem
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'start',
-            justifyContent: 'flex-start',
-          }}
-        >
+        <ListItem className={classes.listContainer}>
           <Typography
             variant="body2"
             component="p"
-            style={{ paddingTop: '0.5rem' }}
+            color="textSecondary"
+            className={classes.title}
           >
             Diagnosis Codes:
           </Typography>
-          <List style={{ width: '100%' }}>
+          <List style={{ width: '100%', marginTop: 0, paddingTop: 0 }}>
             {diagnosisEntry.map((diagnosis, index) => (
-              <ListItem
-                key={index}
-                style={{ padding: 0, marginBottom: '0.25rem' }}
-              >
-                <Typography color="textSecondary">
+              <ListItem key={index} className={classes.innerListItem}>
+                <Typography color="textSecondary" className={classes.text}>
                   {diagnosis.code}: {diagnosis.name}
                 </Typography>
               </ListItem>
@@ -136,63 +157,59 @@ const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
           </List>
         </ListItem>
       )}
-      <ListItem
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
-      >
-        <Typography variant="body2" component="p">
+      <ListItem className={classes.listContainer}>
+        <Typography
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          className={classes.title}
+        >
           Specialist:
         </Typography>
-        <Typography color="textSecondary">{entry.specialist}</Typography>
+        <Typography color="textSecondary" className={classes.text}>
+          {entry.specialist}
+        </Typography>
       </ListItem>
       {entry.healthCheckRating !== undefined && (
-        <ListItem
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Typography variant="body2" component="p">
+        <ListItem className={classes.listContainer}>
+          <Typography
+            variant="body2"
+            component="p"
+            color="textSecondary"
+            className={classes.title}
+          >
             Health Check Rating:
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textSecondary" className={classes.text}>
             {entry.healthCheckRating} -{' '}
             {getHealthCheckRatingDescription(entry.healthCheckRating)}
           </Typography>
         </ListItem>
       )}
-      <ListItem
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
-      >
-        <Typography variant="body2" component="p">
+      <ListItem className={classes.listContainer}>
+        <Typography
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          className={classes.title}
+        >
           Description:
         </Typography>
-        <Typography color="textSecondary">{entry.description}</Typography>
+        <Typography color="textSecondary" className={classes.text}>
+          {entry.description}
+        </Typography>
       </ListItem>
       {entry.sickLeave && (
-        <ListItem
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Typography variant="body2" component="p">
+        <ListItem className={classes.listContainer}>
+          <Typography
+            variant="body2"
+            component="p"
+            color="textSecondary"
+            className={classes.title}
+          >
             Sick leave:
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textSecondary" className={classes.text}>
             Start date: {entry.sickLeave.startDate} - End date:{' '}
             {entry.sickLeave.endDate}
           </Typography>

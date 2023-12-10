@@ -18,17 +18,50 @@ import {
   DialogContent,
   Button,
   ButtonGroup,
+  makeStyles,
 } from '@material-ui/core';
 import PatientEntryDetail from './PatientEntryDetail';
 import HospitalEntryForm from './HospitalEntryForm';
 import OccupationalHealthcareEntryForm from './OccupationalHealthcareEntryForm';
 import HealthCheckEntryForm from './HealthCheckEntryForm';
 
+const useStyles = makeStyles((theme) => ({
+  buttonGroup: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    padding: '2rem',
+    background: '#f9f9f9',
+    gap: '2rem',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    },
+  },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: '800px',
+    margin: 'auto',
+    padding: '2rem',
+  },
+  card: {
+    margin: '2rem 0',
+    borderRadius: '10px',
+    background: '#f9f9f9',
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+  },
+}));
+
 const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [entryType, setEntryType] = useState('Hospital');
+
+  const classes = useStyles();
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -102,18 +135,8 @@ const PatientDetailPage = () => {
   if (!patient) return <div>Loading...</div>;
 
   return (
-    <Card variant="outlined" style={{ marginTop: '2rem' }}>
-      <CardContent
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.5rem',
-          alignItems: 'center',
-          maxWidth: '876px',
-          width: 'max-content%',
-          background: '#f9f9f9',
-        }}
-      >
+    <Card variant="outlined" className={classes.card}>
+      <CardContent className={classes.cardContent}>
         <Typography variant="h5" component="h2">
           {patient.name}{' '}
           {patient.gender === 'male' ? (
@@ -137,7 +160,7 @@ const PatientDetailPage = () => {
               <Typography
                 variant="h5"
                 component="h3"
-                style={{ marginBottom: '1rem' }}
+                style={{ marginBottom: '1rem', textAlign: 'left' }}
               >
                 Entries:
               </Typography>
@@ -156,13 +179,7 @@ const PatientDetailPage = () => {
       <ButtonGroup
         variant="contained"
         color="primary"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          padding: '2rem 0',
-          background: '#f9f9f9',
-          gap: '2rem',
-        }}
+        className={classes.buttonGroup}
       >
         <Button onClick={() => handleEntryTypeChange('Hospital')}>
           Add Hospital Entry
