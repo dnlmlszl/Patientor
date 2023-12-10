@@ -26,23 +26,29 @@ type DiagnosisEntry = {
   name: string;
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   listContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'start',
     justifyContent: 'flex-start',
-    gap: '1.5rem',
+    gap: '.5rem',
     width: '100%',
     padding: '1rem',
     borderBottom: '1px solid #e0e0e0',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    },
   },
   title: {
     fontSize: '1.1rem',
+    flex: 1,
+    fontWeight: 'bold',
   },
   text: {
     fontSize: '1rem',
     lineHeight: '1.5',
+    flex: 2,
   },
   innerListItem: {
     padding: 0,
@@ -142,15 +148,26 @@ const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
             variant="body2"
             component="p"
             color="textSecondary"
+            style={{ margin: 0, padding: 0 }}
             className={classes.title}
           >
             Diagnosis Codes:
           </Typography>
-          <List style={{ width: '100%', marginTop: 0, paddingTop: 0 }}>
+          <List
+            style={{
+              marginTop: '-0.5rem',
+              paddingTop: 0,
+              flex: 2,
+              marginLeft: '-1.3rem',
+            }}
+          >
             {diagnosisEntry.map((diagnosis, index) => (
-              <ListItem key={index} className={classes.innerListItem}>
-                <Typography color="textSecondary" className={classes.text}>
-                  {diagnosis.code}: {diagnosis.name}
+              <ListItem key={index}>
+                <Typography
+                  color="textSecondary"
+                  style={{ display: 'flex', gap: '0.5rem' }}
+                >
+                  <span>{diagnosis.code}:</span> <span>{diagnosis.name}</span>
                 </Typography>
               </ListItem>
             ))}
