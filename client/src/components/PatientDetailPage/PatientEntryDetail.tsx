@@ -106,7 +106,7 @@ const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
         </Typography>
         <Typography color="textSecondary">{entry.date}</Typography>
       </ListItem>
-      {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 ? (
+      {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
         <ListItem
           style={{
             display: 'flex',
@@ -134,20 +134,6 @@ const PatientEntryDetail: React.FC<PatientEntryDetailProps> = ({ entry }) => {
               </ListItem>
             ))}
           </List>
-        </ListItem>
-      ) : (
-        <ListItem
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Typography variant="body2" component="p">
-            Diagnosis Codes:
-          </Typography>
-          <Typography color="textSecondary">No data available</Typography>
         </ListItem>
       )}
       <ListItem

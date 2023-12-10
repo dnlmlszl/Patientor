@@ -52,6 +52,7 @@ const HealthCheckEntryForm: React.FC<Props> = ({ onSubmit }) => {
         fullWidth
         value={entry.description}
         onChange={handleChange}
+        required
       />
       <TextField
         label="Date"
@@ -63,6 +64,7 @@ const HealthCheckEntryForm: React.FC<Props> = ({ onSubmit }) => {
         fullWidth
         value={entry.date}
         onChange={handleChange}
+        required
       />
       <TextField
         label="Specialist"
@@ -72,6 +74,7 @@ const HealthCheckEntryForm: React.FC<Props> = ({ onSubmit }) => {
         fullWidth
         value={entry.specialist}
         onChange={handleChange}
+        required
       />
       <FormControl fullWidth margin="normal">
         <InputLabel id="healthCheckRating-label">
