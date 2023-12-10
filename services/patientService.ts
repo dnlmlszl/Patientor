@@ -4,6 +4,7 @@ import {
   PatientEntry,
   NonSensitivePatientEntry,
   NewPatientEntry,
+  DiagnoseEntry,
 } from '../types';
 
 const getEntries = (): PatientEntry[] => {
@@ -11,18 +12,30 @@ const getEntries = (): PatientEntry[] => {
 };
 
 const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-    id,
-    name,
-    dateOfBirth,
-    gender,
-    occupation,
-  }));
+  return patients.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+      id,
+      name,
+      dateOfBirth,
+      gender,
+      occupation,
+      entries,
+    })
+  );
+};
+
+const getPatientById = (id: string): PatientEntry | undefined => {
+  const patient = patients.find((patient) => patient.id === id);
+
+  if (patient && !patient.entries) {
+    return { ...patient, entries: [] };
+  }
+
+  return patient;
 };
 
 const addPatient = (entry: NewPatientEntry): PatientEntry => {
   const newPatientEntry = {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     id: uuid(),
     ...entry,
   };
@@ -31,8 +44,43 @@ const addPatient = (entry: NewPatientEntry): PatientEntry => {
   return newPatientEntry;
 };
 
+const addDiagnosis = (
+  patientId: string,
+  diagnosis: DiagnoseEntry
+): PatientEntry | undefined => {
+  const patient = patients.find((p) => p.id === patientId);
+
+  if (!patient) {
+    throw new Error('Patient not found');
+  }
+
+  const newDiagnosisEntry: DiagnoseEntry = {
+    code: diagnosis.code,
+    name: diagnosis.name,
+    latin: diagnosis.latin,
+  };
+
+  patient.entries.push(newDiagnosisEntry);
+
+  return patient;
+};
+
+const updatePatient = (
+  updatedPatient: PatientEntry
+): PatientEntry | undefined => {
+  const index = patients.findIndex((p) => p.id === updatedPatient.id);
+  if (index !== -1) {
+    patients[index] = updatedPatient;
+    return updatedPatient;
+  }
+  return undefined;
+};
+
 export default {
   getEntries,
+  getPatientById,
   getNonSensitiveEntries,
   addPatient,
+  addDiagnosis,
+  updatePatient,
 };

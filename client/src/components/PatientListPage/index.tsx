@@ -18,6 +18,7 @@ import { Patient } from '../../types';
 import HealthRatingBar from '../../components/HealthRatingBar';
 
 import patientService from '../../services/patients';
+import { Link } from 'react-router-dom';
 
 interface Props {
   patients: Patient[];
@@ -73,6 +74,7 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
             <TableCell>Gender</TableCell>
             <TableCell>Occupation</TableCell>
             <TableCell>Health Rating</TableCell>
+            <TableCell>Patient Details</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -83,6 +85,9 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
                 <HealthRatingBar showText={false} rating={1} />
+              </TableCell>
+              <TableCell>
+                <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
               </TableCell>
             </TableRow>
           ))}

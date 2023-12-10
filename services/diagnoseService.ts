@@ -10,8 +10,9 @@ const getNonSensitiveEntries = (): NonsensitiveDiagnoseEntry[] => {
   return diagnoses.map(({ code, name }) => ({ code, name }));
 };
 
-const addDiagnose = () => {
-  return null;
+const addDiagnose = (newDiagnose: DiagnoseEntry): DiagnoseEntry => {
+  diagnoses.push(newDiagnose);
+  return newDiagnose;
 };
 
 export default { getEntries, getNonSensitiveEntries, addDiagnose };
